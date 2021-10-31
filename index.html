@@ -1,120 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
     <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
-    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css"
+    />
+  </head>
+
+  <body>
+<style>
+    body{
+        margin: 0;
+    }
+    .progs{
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+        background: rgb(250, 247, 244);
+    }
+    ._input{
+        margin: auto;
+        
+    }
+    ._input button{
+        background: rgb(241, 163, 74);
+        border: none;
+        font-size: 18px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    ._input>div{
+        margin: 5px;
+    }
+    input{
+        padding: 10px 20px;
+        outline: none;
+        border: 1px gainsboro solid;
+        margin: 2px 0;
+    }
+    label{
+        display: block;
+    }
+
+    ._cover{
+        height: 400px;
+        width: 100vw;
+        background-image: url(./cover.jpeg);
+        background-position: center;
+        background-size: 400px;
+    }
+    .top_Bar{
+        width: 100vw;
+        background: white;
+        display: flex;
+        justify-content: center;
+    }
+    .top_Bar button{
+        background: white;
+        border: none;
+        font-size: 18px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    .top_Bar button.isActive{
+        border-bottom: solid rgb(241, 163, 74) 3px;
+    }
+.__progs{
+    padding: 60px 80px ;
+}
+.each{
+    margin: 15px 0 ;
+}
+.save_btn{
+    background: rgb(241, 163, 74);
+        border: none;
+        font-size: 18px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 20px ;
+}
+.save_btn:hover{
+    background: rgb(241, 153, 53);
+    transition: .5s;
+
+}
+</style>
 
 
-</head>
-
-<body>
-    <div class="_logo">
-        Kalalayam
-    </div>
     <div class="progs">
-        <button @click="save" v-if="saveList">Save</button>
-        <div v-if="prg">
-            <div class="top_Bar">
-                <button v-bind:class="[ activecat==cat&& 'isActive' ]" @click="setAct(cat)" v-for="cat in cats">
-                    {{ cat }}
-                </button>
-            </div>
+      <div v-if="id&&pass">
+        <div class="_cover">
 
-
-            <div v-if="activecat" class="__progs">
-
-                <div v-for="eachProg in activecatList">
-                    {{eachProg[1]}}
-                    <multiselect @input="()=>{onChange(eachProg[0],eachProg[3])}" v-model="eachProg[3]" :multiple="true"
-                        :options="activeStdList" track-by="id" label="value" :searchable="true" :close-on-select="false"
-                        :show-labels="false" placeholder="Pick a value"></multiselect>
-
-                </div>
-            </div>
-            <div v-else>
-                Select A Catagory
-            </div>
         </div>
-        <!-- <v-select :options="options"></v-select> -->
+    
+        <div v-if="prg">
+            
+          <div class="top_Bar">
+            <button
+              v-bind:class="[ activecat==cat&& 'isActive' ]"
+              @click="setAct(cat)"
+              v-for="cat in cats"
+            >
+              {{ cat }}
+            </button>
+          </div>
+
+        <button class="save_btn" @click="save" v-if="saveList">Save</button>
+
+          <div v-if="activecat" class="__progs">
+            <div class="each" v-for="eachProg in activecatList">
+              {{eachProg[1]}}
+              <multiselect
+                @input="()=>{onChange(eachProg[0],eachProg[3])}"
+                v-model="eachProg[3]"
+                :multiple="true"
+                :options="activeStdList"
+                track-by="id"
+                label="value"
+                :searchable="true"
+                :close-on-select="false"
+                :show-labels="false"
+                placeholder="Pick a value"
+              ></multiselect>
+            </div>
+          </div>
+          <div v-else>Select A Catagory</div>
+        </div>
+      </div>
+      <div class="_input" v-else>
+        <div >
+          <label for="">HouseId</label>
+          <input v-model="logInp.id" type="text" />
+        </div>
+        <div>
+            <label for="">Password</label>
+            <input v-model="logInp.pass" type="password" />
+          </div>
+          <div>
+              <button 
+              @click="()=>{
+                  this.id=this.logInp.id
+                  this.pass=this.logInp.pass
+              }"
+              >
+                  Login
+              </button>
+          </div>
+      </div>
+      <!-- <v-select :options="options"></v-select> -->
     </div>
-
-</body>
-
+  </body>
 </html>
 <script>
-    let _id = "SRM"
-    let _pass = "aaaa"
-    Vue.component('vue-multiselect', window.VueMultiselect.default)
+  // let _id = "TLM"
+  // let _pass = "bbb"
+  Vue.component("vue-multiselect", window.VueMultiselect.default);
+
+  var app = new Vue({
+    el: ".progs",
+    components: { Multiselect: window.VueMultiselect.default },
+    data: {
+        logInp:{},
+      id: null,
+      pass: null,
+      cats: ["BIDAYA", "UOOLA", "THANIYA", "THANAVIYYA", "ALIYA"],
+      prg: null,
+      std: null,
+      activecat: null,
+      value: null,
+      saveList: null,
+    },
+    methods: {
+      setAct(elm) {
+        this.activecat = elm;
+      },
+      onChange(progkey, std) {
+        //console.log(a,e,"wwwwwwwwwwwwwww");
+        //console.log(JSON.stringify(std.id));
+        this.saveList = {
+          ...this.saveList,
+          ...{ [progkey]: std.map((e) => e.id) },
+        };
+      },
+      save() {
+        fetch(
+          `https://script.google.com/macros/s/AKfycbzY6YthO8HVaHfQwrZEtqP_Ca0PuQczIBU22iR4YqHIo6U3o8qAU2ZI-5VwKTYo49c/exec?_id=${this.id}&&_pass=${this.pass}&&_update=${JSON.stringify(
+            this.saveList
+          )}`
+        )
+          .then((e) => e.json())
+          .then((e) => {
+            console.log(e);
+            this.saveList=null
+          });
+      },
+    },
+    watch: {
+    id: function() {
+        if (this.id && this.pass) {
+       
+        fetch(
+          `https://script.google.com/macros/s/AKfycbzY6YthO8HVaHfQwrZEtqP_Ca0PuQczIBU22iR4YqHIo6U3o8qAU2ZI-5VwKTYo49c/exec?act=get&&_id=${this.id}&&_pass=${this.pass}`
+        )
+          .then((e) => e.json())
+          .then((e) => {
+              if(e.std=="err in "){
+                  alert("Invalid User Or Password")
+                  location.reload()
+              }else{
+                this.prg = e.prg;
+                this.std = e.std;
+              }
+            
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
 
 
-    var app = new Vue({
-        el: '.progs',
-        components: { Multiselect: window.VueMultiselect.default },
-        data: {
-            cats: [
-                "BIDAYA",
-                "UOOLA",
-                "THANIYA",
-                "THANAVIYYA",
-                "ALIYA"
-            ],
-            prg: null,
-            std: null,
-            activecat: null,
-            value: null,
-            saveList: null
-
-        }, methods: {
-            setAct(elm) {
-                this.activecat = elm
-            },
-            onChange(progkey, std) {
-                //console.log(a,e,"wwwwwwwwwwwwwww");
-                //console.log(JSON.stringify(std.id));
-                this.saveList = { ...this.saveList, ...{ [progkey]: std.map(e=>e.id) } }
-            },
-            save() {
-                fetch(`https://script.google.com/macros/s/AKfycbytmYmxId7WE-NKDXFG85fTobo0ag20hURKMxbI2H9r0OkL7JXQKX-b8Z_zwpYmht2j/exec?_id=${_id}&&_pass=${_pass}&&_update=${JSON.stringify(this.saveList)}`).then(e=>e.json()).then(e=>{
-                    console.log(e);
-                })
-            }
-        },
-        computed: {
-            activecatList() {
-                return this.prg.filter(e => e[2] == this.activecat)
-            },
-            activeStdList() {
-                return this.std.filter(e => e[4] == this.activecat).map(e => ({ value: `${e[1]} | ${e[2]}`, id: e[1] }))
-
-            }
-        },
-        mounted() {
-
-            fetch(`https://script.google.com/macros/s/AKfycby6w4NcsB07t3TZ3piOYbHwGlF0rRNzwixAX3x81PYMZxVgr2SHmrQzIAWLCdBFf7ie/exec?act=get&&_id=${_id}&&_pass=${_pass}`,{headers:{
-              
-      'Content-Type': 'application/json'
-
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    
-            }})
-                .then(e => e.json()).then(e => {
-                    this.prg = e.prg
-                    
-
-
-                    this.std = e.std
-                }).catch(e=>{
-                    console.log(e);
-                })
-        }
-    })
+    }
+  },
+    computed: {
+      activecatList() {
+        return this.prg.filter((e) => e[2] == this.activecat);
+      },
+      activeStdList() {
+        return this.std
+          .filter((e) => e[4] == this.activecat)
+          .map((e) => ({ value: `${e[1]} | ${e[2]}`, id: e[1] }));
+      },
+    },
+    mounted() {
+      
+    },
+  });
 </script>
-
-
