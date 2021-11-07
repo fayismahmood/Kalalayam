@@ -15,122 +15,127 @@
   </head>
 
   <body>
-<style>
-    body{
+    <style>
+      body {
         margin: 0;
-    }
-    .progs{
+      }
+      .progs {
         display: flex;
         width: 100%;
         min-height: 100vh;
         background: rgb(250, 247, 244);
-    }
-    ._input{
+      }
+      ._input {
         margin: auto;
-        
-    }
-    ._input button{
+      }
+      ._input button {
         background: rgb(241, 163, 74);
         border: none;
         font-size: 18px;
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
-    }
-    ._input>div{
+      }
+      ._input > div {
         margin: 5px;
-    }
-    input{
+      }
+      input {
         padding: 10px 20px;
         outline: none;
         border: 1px gainsboro solid;
         margin: 2px 0;
-    }
-    label{
+      }
+      label {
         display: block;
-    }
+      }
 
-    ._cover{
+      ._cover {
         height: 400px;
         width: 100vw;
         background-image: url(./cover.jpeg);
         background-position: center;
         background-size: 400px;
-    }
-    .top_Bar{
+      }
+      .top_Bar {
         width: 100vw;
         background: white;
-        display: flex;
-        justify-content: center;
+
         overflow: auto;
         height: max-content;
-    }
-    .top_Bar button{
+      }
+      .top_Bar > div {
+        width: max-content;
+        display: flex;
+        justify-content: center;
+      }
+      .top_Bar button {
         background: white;
         border: none;
         font-size: 18px;
         padding: 10px 20px;
         cursor: pointer;
-    }
-    .top_Bar button.isActive{
+      }
+      .top_Bar button.isActive {
         border-bottom: solid rgb(241, 163, 74) 3px;
-    }
-.__progs{
-    padding: 60px 80px ;
-}
-.each{
-    margin: 15px 0 ;
-}
-.save_btn{
-    background: rgb(241, 163, 74);
+      }
+      .__progs {
+        padding: 60px 80px;
+      }
+      @media (max-width: 800px) {
+        .__progs {
+          padding: 60px 25px;
+        }
+      }
+      .each {
+        margin: 15px 0;
+      }
+      .save_btn {
+        background: rgb(241, 163, 74);
         border: none;
         font-size: 18px;
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
-        margin: 20px ;
+        margin: 20px;
         z-index: 999;
-        position: fixed;
-        bottom: 30px;
-        right: 100px;
-}
-.save_btn:hover{
-    background: rgb(241, 153, 53);
-    transition: .5s;
-
-}
-h2{
-  margin: auto;
-  color: gray;
-}
-._m{
-  height: calc(100vh - 400px);
-  display: grid;
-
-}
-
-</style>
-
+        position: sticky;
+        top: 80%;
+        left: 50%;
+        transform: translate(50%);
+        width: max-content;
+      }
+      .save_btn:hover {
+        background: rgb(241, 153, 53);
+        transition: 0.5s;
+      }
+      h2 {
+        margin: auto;
+        color: gray;
+      }
+      ._m {
+        min-height: calc(100vh - 400px);
+        display: grid;
+      }
+    </style>
 
     <div class="progs">
       <div v-if="id&&pass">
-        <div class="_cover">
+        <div class="_cover"></div>
 
-        </div>
-    
         <div class="_m" v-if="prg">
-            
           <div class="top_Bar">
-            <button
-              v-bind:class="[ activecat==cat&& 'isActive' ]"
-              @click="setAct(cat)"
-              v-for="cat in cats"
-            >
-              {{ cat }}
-            </button>
+            <div>
+              <button
+                v-bind:class="[ activecat==cat&& 'isActive' ]"
+                @click="setAct(cat)"
+                v-for="cat in cats"
+              >
+                {{ cat }}
+              </button>
+            </div>
           </div>
 
-        <button class="save_btn" @click="save" v-if="saveList">Save</button>
+          <button class="save_btn" @click="save" v-if="saveList">Save</button>
 
           <div v-if="activecat&&!saving" class="__progs">
             <div class="each" v-for="eachProg in activecatList">
@@ -154,24 +159,24 @@ h2{
         </div>
       </div>
       <div class="_input" v-else>
-        <div >
+        <div>
           <label for="">HouseId</label>
           <input v-model="logInp.id" type="text" />
         </div>
         <div>
-            <label for="">Password</label>
-            <input v-model="logInp.pass" type="password" />
-          </div>
-          <div>
-              <button 
-              @click="()=>{
+          <label for="">Password</label>
+          <input v-model="logInp.pass" type="password" />
+        </div>
+        <div>
+          <button
+            @click="()=>{
                   this.id=this.logInp.id
                   this.pass=this.logInp.pass
               }"
-              >
-                  Login
-              </button>
-          </div>
+          >
+            Login
+          </button>
+        </div>
       </div>
       <!-- <v-select :options="options"></v-select> -->
     </div>
@@ -186,11 +191,11 @@ h2{
     el: ".progs",
     components: { Multiselect: window.VueMultiselect.default },
     data: {
-        logInp:{},
+      logInp: {},
       id: null,
       pass: null,
 
-      saving:false,
+      saving: false,
       cats: ["BIDAYA", "UOOLA", "THANIYA", "THANAVIYYA", "ALIYA"],
       prg: null,
       std: null,
@@ -211,47 +216,43 @@ h2{
         };
       },
       save() {
-        this.saving=true
+        this.saving = true;
 
         fetch(
-          `https://script.google.com/macros/s/AKfycbzY6YthO8HVaHfQwrZEtqP_Ca0PuQczIBU22iR4YqHIo6U3o8qAU2ZI-5VwKTYo49c/exec?_id=${this.id}&&_pass=${this.pass}&&_update=${JSON.stringify(
-            this.saveList
-          )}`
+          `https://script.google.com/macros/s/AKfycbzY6YthO8HVaHfQwrZEtqP_Ca0PuQczIBU22iR4YqHIo6U3o8qAU2ZI-5VwKTYo49c/exec?_id=${
+            this.id
+          }&&_pass=${this.pass}&&_update=${JSON.stringify(this.saveList)}`
         )
           .then((e) => e.json())
           .then((e) => {
             console.log(e);
-        this.saving=false
-            this.saveList=null
+            this.saving = false;
+            this.saveList = null;
           });
       },
     },
     watch: {
-    id: function() {
+      id: function () {
         if (this.id && this.pass) {
-       
-        fetch(
-          `https://script.google.com/macros/s/AKfycbzY6YthO8HVaHfQwrZEtqP_Ca0PuQczIBU22iR4YqHIo6U3o8qAU2ZI-5VwKTYo49c/exec?act=get&&_id=${this.id}&&_pass=${this.pass}`
-        )
-          .then((e) => e.json())
-          .then((e) => {
-              if(e.std=="err in "){
-                  alert("Invalid User Or Password")
-                  location.reload()
-              }else{
+          fetch(
+            `https://script.google.com/macros/s/AKfycbzY6YthO8HVaHfQwrZEtqP_Ca0PuQczIBU22iR4YqHIo6U3o8qAU2ZI-5VwKTYo49c/exec?act=get&&_id=${this.id}&&_pass=${this.pass}`
+          )
+            .then((e) => e.json())
+            .then((e) => {
+              if (e.std == "err in ") {
+                alert("Invalid User Or Password");
+                location.reload();
+              } else {
                 this.prg = e.prg;
                 this.std = e.std;
               }
-            
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-
-
-    }
-  },
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      },
+    },
     computed: {
       activecatList() {
         return this.prg.filter((e) => e[2] == this.activecat);
@@ -262,8 +263,6 @@ h2{
           .map((e) => ({ value: `${e[1]} | ${e[2]}`, id: e[1] }));
       },
     },
-    mounted() {
-      
-    },
+    mounted() {},
   });
 </script>
